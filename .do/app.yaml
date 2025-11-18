@@ -1,0 +1,21 @@
+# DigitalOcean App Platform Configuration
+name: plant-disease-api
+services:
+- name: api
+  source_dir: /
+  github:
+    repo: Ragul2105/msme-backend
+    branch: main
+  run_command: gunicorn --config gunicorn.conf.py plant_disease_app:app
+  build_command: pip install -r requirements.txt && python setup_model.py
+  environment_slug: python
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  http_port: 8080
+  health_check:
+    http_path: /api/health
+  envs:
+  - key: PORT
+    value: "8080"
+  - key: FLASK_ENV
+    value: "production"
